@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+
+echo "main file begin"
+
+source src1
+source src2
+
+echo 'end main'
+
+# ENDBUILD
+TARGET='dist/compiled'
+# OUTPUT dist/compiled
+if [[ $BUILD == 'GO' ]]
+then
+    [[ -z $TARGET ]] && printf '%s\n' "The variable \$TARGET must be defined!" && exit 1
+    [[ -d $TARGET ]] && printf '%s\n' "The variables \$TARGET must not point to a directory!" && exit 1
+    install -b -m 755 /dev/null "${TARGET}"
+    :
+    while read -ra words
+    do
+        [[ ${words[*]} == '# ENDBUILD' ]] && break
+        if [[ ${words[0]} == source ]];then
+            eval cat "${words[1]}"
+        else printf '%s\n' "${words[*]}"
+        fi
+    done < "${0}" >| "${TARGET}"
+fi

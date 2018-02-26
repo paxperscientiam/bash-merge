@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+echo "main file begin"
+
+
+echo 'end main'
+
+if [[ $BUILD == 'GO' ]]
+then
+install -b -m 755 /dev/null "compiled"; while read -ra words; do if [[ ${words[0]} == source ]]; then eval cat "${words[1]}\n"; else printf '%s\n' "${words[*]}"; fi; done < "${0}" >| "compiled"
+fi
