@@ -72,19 +72,35 @@ verifyPath() {
       else
           TARGET="${FILE%%+(/)}"
       fi
-
-      ENTRY_DIR="$(dirname "${ENTRY}")"
-      TARGET_DIR="$(dirname "${TARGET}")"
-      echo "${ENTRY_DIR#$TARGET_DIR}"
-      [[ ! "${ENTRY_DIR#$TARGET_DIR}" -ef "${ENTRY_DIR}" ]] && printf 'The target directory was be a sub-directory of the entry directory.\n' && exit 1
-
   fi
   return 0
 }
+printf '%s\n' "Target point is ALWAYS treated as relative to the ENTRY!"
 
-verifyPath ENTRY;  printf 'Entry point:  %s\n' "${ENTRY}"
-verifyPath TARGET; printf 'Target point: %s\n' "${TARGET}"
+verifyPath ENTRY; printf 'Target point: %s\n' "${ENTRY}"
 :
+TARGET="$(dirname "${ENTRY}")/${TARGET}"
+:
+verifyPath TARGET; printf 'Target point: %s\n' "${TARGET}"
+
+
+
+# for seg_o in ${ENTRY_DIR[@]}
+# do
+#     for seg_i in ${TARGET_DIR[@]}
+#     do
+#         echo "seg_i $seg_i"
+#         echo "seg_o $seg_o"
+
+#        # [[ $seg_i -ef "${seg_o}" ]] && echo true
+#     done
+# done
+
+#echo ${ENTRY_DIR[2]};exit
+
+
+
+
 exit
 install -b -m 755 /dev/null "${TARGET}"
 BUILD_BASE=$(dirname "${ENTRY}")
