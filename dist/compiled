@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-
-echo "main file begin"
-
-echo "source 1"echo "sourrce 2"
-echo 'end main'
-

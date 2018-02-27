@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source src1
+source src2
+
+
+# ENDBUILD
