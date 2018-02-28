@@ -77,7 +77,13 @@ while read -ra words
 do
     [[ ${words[*]} == '# ENDBUILD' ]] && break
     if [[ ${words[0]} == source ]];then
-        eval cat "${BUILD_BASE}/${words[1]}"
+        echo shit
+        if [[ ${words[1]} = /* ]]
+        then
+            eval cat "/${words[1]}"
+        else
+            eval cat "${BUILD_BASE}/${words[1]}"
+        fi
         printf '%s' $";"
     else printf '%s\n' "${words[*]}"
     fi

@@ -6,5 +6,6 @@ source "src2"
 source "subsrc/src1"
 source "subsrc/src2"
 
+source "${HOME}/lol.json"
 
 # ENDBUILD
