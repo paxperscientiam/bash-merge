@@ -2,7 +2,6 @@
 shopt -s nocasematch
 shopt -s extglob
 :
-_PWD=$(pwd)
 declare ENTRY
 declare TARGET
 
@@ -39,7 +38,28 @@ verifyPath() {
 
     return 0
 }
-printf '>>> %s\n' "Target point is ALWAYS treated as relative to the ENTRY!"
+
+
+case $1 in
+    -h)
+        cat <<'EOF'
+Usage:
+ <ENTRY=/path/to/parent-script> <TARGET=path/to/target-script> bash-merge
+
+Example:
+ ENTRY=${HOME}/top-secret/main-script.bash TARGET=dist bash-merge
+ => ${HOME}/top-secret/dist/main-script
+
+Note:
+ The TARGET path is ALWAYS treated as relative to the ENTRY path!
+
+EOF
+        exit 0
+        ;;
+esac
+
+
+printf '\n'
 
 verifyPath ENTRY; printf 'Target point: %s\n' "${ENTRY}"
 :
