@@ -62,11 +62,11 @@ esac
 :
 printf '\n'
 :
-verifyPath ENTRY; printf 'ENTRY point: %s\n' "${ENTRY}"
+verifyPath ENTRY; printf ' >>> ENTRY point: %s\n' "${ENTRY}"
 :
 TARGET="$(dirname "${ENTRY:?}")/${TARGET}"
 :
-verifyPath TARGET; printf 'TARGET point: %s\n' "${TARGET}"
+verifyPath TARGET; printf ' >>> TARGET point: %s\n\n' "${TARGET}"
 :
 ENTRY_DIR=$(dirname "${ENTRY}")
 :
@@ -78,10 +78,12 @@ do
 
     if [[ ${words[0]} == source ]]
     then
-        eval cat "${ENTRY_DIR}/${words[1]}"
+        P="${ENTRY_DIR:?}/${words[1]}"
+        eval cat "${P}"
         printf '%s\n' $";"
     fi
 done < "${ENTRY}" >| "${TARGET}"
+#
 
 
-printf 'Check "%s" for your output.\n' "$(dirname "${TARGET}")"
+printf '\n >>> Check "%s" for your output.\n' "$(dirname "${TARGET}")"

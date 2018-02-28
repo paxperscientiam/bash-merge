@@ -9,8 +9,8 @@ Hey, `bash-merge` will merge sourced files into the parent script. Make sense?
 
 # Usage
 ```bash
-ENTRY=/absolute/path/to/parent/script \
- TARGET=relative/path/to/ENTRY bash-merge
+ENTRY=/absolute/path/to/parent-script \
+ TARGET=relative/path/to/dist bash-merge
 ```
 
 # Example
@@ -21,5 +21,5 @@ ENTRY=/users/ramos/repos/bash-merge/example-proj/main \
 
 # Note
 
-* Currently, all sourced within the parent script are expected to be given as relative paths.
+* Currently, `bash-merge` supports only scripts that source files with a *relative* path.
 * Not yet tested with nested sources
