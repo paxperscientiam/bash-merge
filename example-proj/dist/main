@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "source 1";echo "sourrce 2";
+echo "sub source 1";echo "sub source 2";
+
