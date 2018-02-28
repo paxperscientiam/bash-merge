@@ -71,19 +71,13 @@ verifyPath TARGET; printf 'TARGET point: %s\n' "${TARGET}"
 
 
 install -b -m 755 /dev/null "${TARGET}"
-BUILD_BASE=$(dirname "${ENTRY}")
 :
 while read -ra words
 do
     [[ ${words[*]} == '# ENDBUILD' ]] && break
-    if [[ ${words[0]} == source ]];then
-        echo shit
-        if [[ ${words[1]} = /* ]]
-        then
-            eval cat "/${words[1]}"
-        else
-            eval cat "${BUILD_BASE}/${words[1]}"
-        fi
+    if [[ ${words[0]} == source ]]
+    then
+        eval cat "${words[1]}"
         printf '%s' $";"
     else printf '%s\n' "${words[*]}"
     fi

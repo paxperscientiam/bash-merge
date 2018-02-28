@@ -8,4 +8,6 @@ source "subsrc/src2"
 
 source "${HOME}/lol.json"
 
+source "/tmp/abs"
+
 # ENDBUILD
