@@ -2,6 +2,7 @@
 shopt -s nocasematch
 shopt -s extglob
 :
+#set -x
 declare ENTRY
 declare TARGET
 
@@ -58,29 +59,29 @@ EOF
         exit 0
         ;;
 esac
-
-
+:
 printf '\n'
-
+:
 verifyPath ENTRY; printf 'ENTRY point: %s\n' "${ENTRY}"
 :
-
 TARGET="$(dirname "${ENTRY:?}")/${TARGET}"
 :
 verifyPath TARGET; printf 'TARGET point: %s\n' "${TARGET}"
-
-
+:
+ENTRY_DIR=$(dirname "${ENTRY}")
+:
 install -b -m 755 /dev/null "${TARGET}"
 :
 while read -ra words
 do
     [[ ${words[*]} == '# ENDBUILD' ]] && break
+
     if [[ ${words[0]} == source ]]
     then
-        eval cat "${words[1]}"
-        printf '%s' $";"
-    else printf '%s\n' "${words[*]}"
+        eval cat "${ENTRY_DIR}/${words[1]}"
+        printf '%s\n' $";"
     fi
 done < "${ENTRY}" >| "${TARGET}"
+
 
 printf 'Check "%s" for your output.\n' "$(dirname "${TARGET}")"
