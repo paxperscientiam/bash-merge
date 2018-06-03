@@ -72,18 +72,53 @@ ENTRY_DIR=$(dirname "${ENTRY}")
 :
 install -b -m 755 /dev/null "${TARGET}"
 :
+# while read -ra words
+# do
+#     [[ ${words[*]} == '# ENDBUILD' ]] && break
+
+#     if [[ ${words[0]} == source ]]
+#     then
+#         P="${ENTRY_DIR:?}/${words[1]}"
+#         eval cat "${P}"
+#         printf '\n'
+#     fi
+# done < "${ENTRY}" >| "${TARGET}"
+# #
+declare -i iter=1
+declare linum
+declare -a register
+
+register=("${ENTRY}")
+
+
 while read -ra words
 do
-    [[ ${words[*]} == '# ENDBUILD' ]] && break
-
+    :
     if [[ ${words[0]} == source ]]
     then
-        P="${ENTRY_DIR:?}/${words[1]}"
-        eval cat "${P}"
-        printf '%s\n' $";"
+        register[1]="${words[@]}"
+    else
+        :
+        printf '%s\n' "${words[*]}"
     fi
+    IE=$(dirname "${ENTRY}")/${words[1]}
+    if [[ "${#register[1]}" -gt 0 ]]
+    then
+        while read -ra words2
+        do
+            if [[ ${words2[0]} == source ]]
+            then
+                eval "${words2[*]}"
+            else
+                printf '%s\n' "${words2[*]}"
+            fi
+            :
+        done < "${IE}" >> "${TARGET}"
+        register[1]=''
+    fi
+        (( iter++ ))
+
 done < "${ENTRY}" >| "${TARGET}"
-#
 
 
-printf '\n >>> Check "%s" for your output.\n' "$(dirname "${TARGET}")"
+printf '\n >>> Check "%s" for your output.\n' "$(dirname "${TARGET/\/\.\//\/}")"
